@@ -1,0 +1,4 @@
+project:
+  name: cholesky
+  lang: c
+  source: src
