@@ -9,7 +9,7 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 include_directories(include)
 
 # Create a library from the SDK sources
-add_library(sdk STATIC src/hello.c)
+add_library(sdk STATIC src/hello.c src/cholesky.c)
 
 # Enable testing
 enable_testing()
@@ -20,3 +20,10 @@ target_link_libraries(test_main sdk)
 
 # Add test to CTest
 add_test(NAME HelloTest COMMAND test_main)
+
+# Add Cholesky test executable
+add_executable(test_cholesky tests/test_cholesky.c)
+target_link_libraries(test_cholesky sdk m)
+
+# Add Cholesky test to CTest
+add_test(NAME CholeskyTest COMMAND test_cholesky)
