@@ -8,6 +8,12 @@
 #define N 32
 #define EPSILON 1e-10
 
+/* Test matrix constants */
+#define TEST_DIAGONAL_VALUE 2.0
+#define TEST_OFF_DIAGONAL_DECAY 0.1
+#define TEST_STABILITY_DIAGONAL 10.0
+#define TEST_STABILITY_OFF_DIAGONAL 0.01
+
 /* Helper function to check if two matrices are approximately equal */
 static bool matrix_equal(double A[N][N], double B[N][N], double tol) {
     for (int i = 0; i < N; i++) {
@@ -59,9 +65,10 @@ static void create_simple_pd_matrix(double A[N][N]) {
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             if (i == j) {
-                A[i][j] = 2.0; /* Strong diagonal */
+                A[i][j] = TEST_DIAGONAL_VALUE; /* Strong diagonal */
             } else {
-                A[i][j] = 0.1 / (abs(i - j) + 1); /* Decay off-diagonal */
+                int diff = (i > j) ? (i - j) : (j - i);
+                A[i][j] = TEST_OFF_DIAGONAL_DECAY / (diff + 1); /* Decay off-diagonal */
             }
         }
     }
@@ -239,9 +246,10 @@ static int test_numerical_stability(void) {
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             if (i == j) {
-                A[i][j] = 10.0;
+                A[i][j] = TEST_STABILITY_DIAGONAL;
             } else {
-                A[i][j] = 0.01 / (abs(i - j) + 1);
+                int diff = (i > j) ? (i - j) : (j - i);
+                A[i][j] = TEST_STABILITY_OFF_DIAGONAL / (diff + 1);
             }
         }
     }

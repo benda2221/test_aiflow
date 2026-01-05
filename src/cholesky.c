@@ -57,7 +57,10 @@ int cholesky_decompose_32x32(double A[32][32], double L[32][32]) {
             L[j][i] = numerator / L[i][i];
         }
         
-        /* Set upper triangular part to zero (for clarity, though not strictly necessary) */
+        /* Zero upper triangular part for clarity and correctness
+         * The algorithm only writes to lower triangular elements (L[j][i] where j >= i),
+         * but we need upper triangular elements to be zero for L × L^T multiplication
+         * to work correctly in verification and usage. */
         for (int j = 0; j < i; j++) {
             L[j][i] = 0.0;
         }
